@@ -44,9 +44,17 @@ generations:
 rollback:
     ssh {{host}} 'sudo nixos-rebuild switch --rollback'
 
+# start the VM.
+start target=default:
+    prlctl start {{target}}
+
+# stop the VM.
+stop target=default:
+    prlctl stop {{target}}
+
 # Reboot the VM.
-reboot:
-    ssh {{host}} 'sudo reboot' || true
+reboot target=default:
+    prlctl restart {{target}}
 
 # Create a Parallels snapshot of the VM.
 snapshot name=default description="":
