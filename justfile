@@ -12,7 +12,8 @@ dry target=default:
     nix run nixpkgs#nixos-rebuild -- dry-activate \
         --flake .#{{target}} \
         --target-host {{host}} \
-        --build-host {{host}}
+        --build-host {{host}} \
+        --sudo
 
 # Build & switch on the VM. Activates immediately.
 deploy target=default:
@@ -20,7 +21,7 @@ deploy target=default:
         --flake .#{{target}} \
         --target-host {{host}} \
         --build-host {{host}} \
-        --use-remote-sudo
+        --sudo
 
 # Build, set as next boot generation, but don't activate now.
 boot target=default:
@@ -28,7 +29,7 @@ boot target=default:
         --flake .#{{target}} \
         --target-host {{host}} \
         --build-host {{host}} \
-        --use-remote-sudo
+        --sudo
 
 # Update flake inputs (nixpkgs etc.).
 update:

@@ -39,15 +39,25 @@ just update     # bump nixpkgs
 The flake builds **on the VM itself** (`--build-host`), so no
 aarch64-linux builder is required on the mac.
 
-## First-time bootstrap
+## How it works
 
-The current VM doesn't have passwordless sudo yet, so the very first
-switch must happen on the VM directly:
+- `nixos-rebuild` runs on the mac, evaluates the flake locally, then
+  invokes the Nix daemon on the VM (`--build-host`) to build the
+  aarch64-linux closure. No local Linux builder is needed.
+- The same VM is also `--target-host`, so activation happens in place.
+- `--sudo` lets `thekorn` activate via passwordless sudo
+  (granted by `security.sudo.wheelNeedsPassword = false`).
+
+## Re-bootstrapping from scratch
+
+If the VM is ever reinstalled and the SSH key still works, run the
+first switch on the VM itself (since the fresh system won't yet have
+NOPASSWD sudo or trusted-users):
 
 ```sh
 rsync -az --delete --exclude=.git ./ thekorn@thekorn-dev:/home/thekorn/thekorn-dev.nix/
 ssh -t thekorn@thekorn-dev 'cd ~/thekorn-dev.nix && sudo nixos-rebuild switch --flake .#thekorn-dev'
 ```
 
-After that one activation, `security.sudo.wheelNeedsPassword = false` is
-in effect and `just deploy` from the mac works end-to-end.
+After that one activation, `just deploy` from the mac works
+end-to-end.
