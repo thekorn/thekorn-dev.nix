@@ -2,10 +2,10 @@ default := "thekorn-dev"
 host    := "thekorn@thekorn-dev"
 
 # Build the system closure on the VM (no activation).
-build target=default:
-    nix run nixpkgs#nixos-rebuild -- build \
-        --flake .#{{target}} \
-        --build-host {{host}}
+#build target=default:
+#    nix run nixpkgs#nixos-rebuild -- build \
+#        --flake .#{{target}} \
+#        --build-host {{host}}
 
 # Dry-activate: build + show what would change, don't switch.
 dry target=default:
@@ -15,13 +15,14 @@ dry target=default:
         --build-host {{host}} \
         --sudo
 
-# Build & switch on the VM. Activates immediately.
+# Build & switch on the VM. Activates immediately, then reboots.
 deploy target=default:
     nix run nixpkgs#nixos-rebuild -- switch \
         --flake .#{{target}} \
         --target-host {{host}} \
         --build-host {{host}} \
         --sudo
+    just reboot
 
 # Build, set as next boot generation, but don't activate now.
 boot target=default:
@@ -42,3 +43,11 @@ generations:
 # Roll back to previous generation.
 rollback:
     ssh {{host}} 'sudo nixos-rebuild switch --rollback'
+
+# Reboot the VM.
+reboot:
+    ssh {{host}} 'sudo reboot' || true
+
+# Create a Parallels snapshot of the VM.
+snapshot name=default description="":
+    prlctl snapshot {{name}} -n "$(date +%Y-%m-%d_%H-%M-%S)" -d "{{description}}"
