@@ -1,11 +1,4 @@
-{
-  config,
-  pkgs,
-  lib,
-  ...
-}:
-
-{
+{pkgs, ...}: {
   users.users.thekorn = {
     isNormalUser = true;
     description = "thekorn";

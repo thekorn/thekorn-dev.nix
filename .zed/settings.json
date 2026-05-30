@@ -3,7 +3,16 @@
     "enabled": false,
   },
   "format_on_save": "on",
-  "languages": {},
-  "language_servers": ["codebook", "nixd"],
+  "languages": {
+    "Nix": {
+      "formatter": {
+        "external": {
+          "command": "alejandra", // or "nixfmt"
+          "arguments": ["--quiet", "--"],
+        },
+      },
+    },
+  },
+  "language_servers": ["codebook", "nixd", "just"],
   "lsp": {},
 }

@@ -1,0 +1,28 @@
+words = [
+    "NOPASSWD",
+    "nixos",
+    "nixpkgs",
+    "passwordless",
+    "thekorn",
+    "prl",
+    "Workmux",
+    "worktree",
+    "nar",
+    "numtide",
+    "pkgs",
+    "efi",
+    "networkmanager",
+    "ehci",
+    "pci",
+    "xhci",
+    "usbhid",
+    "vfat",
+    "fmask",
+    "dmask",
+    "prlctl",
+    "optimise",
+    "xkb",
+    "openssh",
+]
+
+ignore_paths = ["flake.lock"]

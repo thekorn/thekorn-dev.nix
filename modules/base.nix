@@ -1,10 +1,8 @@
-{ config, pkgs, lib, ... }:
-
-{
+{pkgs, ...}: {
   # Nix daemon configuration
   nix.settings = {
-    experimental-features = [ "nix-command" "flakes" ];
-    trusted-users = [ "root" "thekorn" ];
+    experimental-features = ["nix-command" "flakes"];
+    trusted-users = ["root" "thekorn"];
     auto-optimise-store = true;
   };
   nix.gc = {

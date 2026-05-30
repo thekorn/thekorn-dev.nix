@@ -6,7 +6,11 @@
     flake-utils.url = "github:numtide/flake-utils";
   };
 
-  outputs = { self, nixpkgs, flake-utils, ... }:
+  outputs = {
+    nixpkgs,
+    flake-utils,
+    ...
+  }:
     {
       nixosConfigurations.thekorn-dev = nixpkgs.lib.nixosSystem {
         system = "aarch64-linux";
@@ -19,13 +23,11 @@
         ];
       };
     }
-    // flake-utils.lib.eachDefaultSystem (system:
-      let
-        pkgs = import nixpkgs { inherit system; };
-      in
-      {
-        devShells.default = pkgs.mkShell {
-          packages = [ pkgs.just ];
-        };
-      });
+    // flake-utils.lib.eachDefaultSystem (system: let
+      pkgs = import nixpkgs {inherit system;};
+    in {
+      devShells.default = pkgs.mkShell {
+        packages = [pkgs.just];
+      };
+    });
 }
